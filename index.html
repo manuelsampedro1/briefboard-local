@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Briefboard Local</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <p class="eyebrow">briefboard-local</p>
+        <h1>Turn messy client context into a Codex-ready brief</h1>
+        <p class="lede">
+          Local-first, no backend, and designed for real kickoff work before a build.
+        </p>
+      </section>
+
+      <section class="layout">
+        <form class="panel form-panel" id="brief-form">
+          <label>
+            Project name
+            <input name="projectName" placeholder="AI support inbox triage" />
+          </label>
+          <label>
+            Audience
+            <input name="audience" placeholder="small SaaS support team" />
+          </label>
+          <label>
+            Problem
+            <textarea name="problem" rows="4" placeholder="What hurts today?"></textarea>
+          </label>
+          <label>
+            Constraints
+            <textarea name="constraints" rows="4" placeholder="Stack, budget, timeline, security, platforms..."></textarea>
+          </label>
+          <label>
+            Desired deliverable
+            <textarea name="deliverable" rows="3" placeholder="MVP, workflow, script, iOS app, dashboard..."></textarea>
+          </label>
+          <label>
+            Preferred stack
+            <input name="stack" placeholder="Python + local files + minimal web UI" />
+          </label>
+          <label>
+            Acceptance criteria
+            <textarea name="acceptance" rows="4" placeholder="How do we know this is done?"></textarea>
+          </label>
+          <label>
+            Rollout / risk notes
+            <textarea name="rollout" rows="3" placeholder="Anything sensitive, staged, or manual?"></textarea>
+          </label>
+
+          <div class="actions">
+            <button type="button" id="clear-btn" class="ghost">Clear</button>
+          </div>
+        </form>
+
+        <section class="panel output-panel">
+          <div class="output-header">
+            <h2>Project Brief</h2>
+            <button type="button" data-copy-target="brief-output">Copy</button>
+          </div>
+          <pre id="brief-output"></pre>
+
+          <div class="output-header">
+            <h2>Codex Prompt</h2>
+            <button type="button" data-copy-target="prompt-output">Copy</button>
+          </div>
+          <pre id="prompt-output"></pre>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
