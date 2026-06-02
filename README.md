@@ -4,6 +4,8 @@ Local-first client brief builder for Codex projects.
 
 The problem: good Codex runs start with a tight brief, but most project kickoffs begin as scattered messages, half-decisions, and missing acceptance criteria. This small web app turns that mess into a structured build brief and a copyable Codex prompt.
 
+![Briefboard Local preview](docs/preview.svg)
+
 ## What It Does
 
 - Runs fully in the browser with no backend.
@@ -59,4 +61,3 @@ Manual checks:
 - `styles.css`: lightweight presentation.
 - `app.js`: local state, rendering, and copy actions.
 - `DECISIONS.md`: small design notes.
-
