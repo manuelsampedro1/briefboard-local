@@ -15,6 +15,7 @@ The problem: good Codex runs start with a tight brief, but most project kickoffs
   - a project brief,
   - an implementation handoff,
   - a Codex-ready prompt.
+- Exports the brief as Markdown, the prompt as text, and the full draft as JSON.
 
 ## Why This Exists
 
@@ -25,6 +26,7 @@ This is the local-first product example in the profile set: small, practical, an
 - HTML
 - CSS
 - Vanilla JavaScript
+- Node test runner for formatter checks
 
 ## Quick Start
 
@@ -42,6 +44,12 @@ python3 -m http.server 4173
 
 Then open `http://localhost:4173`.
 
+Run tests:
+
+```sh
+node --test
+```
+
 ## Status
 
 Working v1. The app is intentionally simple and offline-first.
@@ -53,11 +61,14 @@ Manual checks:
 - Fill every field and confirm the generated brief updates live.
 - Reload the page and confirm content is restored from `localStorage`.
 - Use the copy buttons for both outputs.
+- Use the download buttons for the Markdown brief, text prompt, and JSON draft.
 - Confirm the "clear" action resets both the form and stored draft.
 
 ## Files
 
 - `index.html`: app shell.
+- `brief-format.js`: shared formatters for the app and tests.
 - `styles.css`: lightweight presentation.
 - `app.js`: local state, rendering, and copy actions.
+- `tests/`: formatter coverage with `node --test`.
 - `DECISIONS.md`: small design notes.

@@ -1,0 +1,9 @@
+{
+  "name": "briefboard-local",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local-first client brief builder for Codex projects.",
+  "scripts": {
+    "test": "node --test"
+  }
+}

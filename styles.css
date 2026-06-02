@@ -113,9 +113,16 @@ textarea {
 
 .output-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
+}
+
+.output-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 pre {
@@ -142,6 +149,16 @@ button:hover {
   background: var(--accent-2);
 }
 
+.secondary {
+  background: #eef3f7;
+  color: var(--ink);
+  border: 1px solid #cfd8e3;
+}
+
+.secondary:hover {
+  background: #dbeafe;
+}
+
 .ghost {
   background: transparent;
   color: var(--ink);
@@ -150,7 +167,9 @@ button:hover {
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
+  gap: 8px;
 }
 
 @media (max-width: 920px) {

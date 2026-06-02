@@ -52,6 +52,7 @@
           </label>
 
           <div class="actions">
+            <button type="button" id="export-json-btn" class="secondary">Export JSON</button>
             <button type="button" id="clear-btn" class="ghost">Clear</button>
           </div>
         </form>
@@ -59,19 +60,26 @@
         <section class="panel output-panel">
           <div class="output-header">
             <h2>Project Brief</h2>
-            <button type="button" data-copy-target="brief-output">Copy</button>
+            <div class="output-actions">
+              <button type="button" data-copy-target="brief-output">Copy</button>
+              <button type="button" data-download-target="brief-output" class="secondary">Download .md</button>
+            </div>
           </div>
           <pre id="brief-output"></pre>
 
           <div class="output-header">
             <h2>Codex Prompt</h2>
-            <button type="button" data-copy-target="prompt-output">Copy</button>
+            <div class="output-actions">
+              <button type="button" data-copy-target="prompt-output">Copy</button>
+              <button type="button" data-download-target="prompt-output" class="secondary">Download .txt</button>
+            </div>
           </div>
           <pre id="prompt-output"></pre>
         </section>
       </section>
     </main>
 
+    <script src="brief-format.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
