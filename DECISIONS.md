@@ -49,3 +49,13 @@ Rationale:
 - A prompt can look complete while still missing audience, problem, deliverable, or acceptance criteria.
 - The readiness check stays descriptive rather than scoring quality with a fake number.
 - Keeping it in the shared formatter makes the behavior testable in Node and visible in the browser.
+
+## Repo Readiness Contract
+
+Expose standard local commands, CI parity, a license, an agent contract, and a stable importable example while keeping the app dependency-free.
+
+Rationale:
+
+- A local-first product demo still needs a reviewer to reproduce checks quickly.
+- `npm test`, `npm run build`, and `npm run lint` make the verification path explicit.
+- A sample draft proves the JSON import/export shape without adding backend state or demo accounts.

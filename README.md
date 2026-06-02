@@ -32,6 +32,8 @@ This is the local-first product example in the profile set: small, practical, an
 
 ## Quick Start
 
+No package install is required for normal use.
+
 Open locally:
 
 ```sh
@@ -49,14 +51,33 @@ Then open `http://localhost:4173`.
 Run tests:
 
 ```sh
-node --test
+npm test
+```
+
+Run static build and lint checks:
+
+```sh
+npm run build
+npm run lint
 ```
 
 ## Status
 
 Working v1. The app is intentionally simple and offline-first.
 
+## Examples
+
+- `examples/briefboard-draft.json`: importable kickoff brief that renders as ready for Codex handoff.
+
 ## Verification
+
+Automated checks:
+
+```sh
+npm test
+npm run build
+npm run lint
+```
 
 Manual checks:
 
@@ -74,5 +95,8 @@ Manual checks:
 - `brief-format.js`: shared formatters for the app and tests.
 - `styles.css`: lightweight presentation.
 - `app.js`: local state, rendering, copy actions, and JSON import/export.
+- `examples/`: importable draft fixture for demos and regression checks.
+- `scripts/`: dependency-free build and lint preflights.
 - `tests/`: formatter coverage with `node --test`.
+- `AGENTS.md`: agent-facing maintenance contract.
 - `DECISIONS.md`: small design notes.

@@ -14,4 +14,8 @@ jobs:
         with:
           node-version: "22"
       - name: Run formatter tests
-        run: node --test
+        run: npm test
+      - name: Build static app
+        run: npm run build
+      - name: Lint static scripts
+        run: npm run lint

@@ -1,0 +1,13 @@
+{
+  "schema_version": "briefboard-local.v1",
+  "draft": {
+    "projectName": "AI Support Inbox Triage",
+    "audience": "Small SaaS support team",
+    "problem": "Incoming support tickets lack consistent priority, ownership, and next-action context.",
+    "constraints": "No backend for the first pass. Keep data local. Export a prompt that a coding agent can execute.",
+    "deliverable": "A local workflow that captures the brief and produces a Codex-ready implementation prompt.",
+    "stack": "Static HTML, CSS, and vanilla JavaScript.",
+    "acceptance": "All required fields are present, the readiness section says the brief is ready, and JSON export/import restores the same draft.",
+    "rollout": "Use on internal kickoff notes first, then refine fields based on repeated missing context."
+  }
+}
