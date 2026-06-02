@@ -16,6 +16,7 @@ The problem: good Codex runs start with a tight brief, but most project kickoffs
   - an implementation handoff,
   - a Codex-ready prompt.
 - Exports the brief as Markdown, the prompt as text, and the full draft as JSON.
+- Imports saved JSON drafts so kickoff work can move between browsers or teammates without a backend.
 
 ## Why This Exists
 
@@ -62,6 +63,7 @@ Manual checks:
 - Reload the page and confirm content is restored from `localStorage`.
 - Use the copy buttons for both outputs.
 - Use the download buttons for the Markdown brief, text prompt, and JSON draft.
+- Import a downloaded JSON draft and confirm all form fields and generated outputs are restored.
 - Confirm the "clear" action resets both the form and stored draft.
 
 ## Files
@@ -69,6 +71,6 @@ Manual checks:
 - `index.html`: app shell.
 - `brief-format.js`: shared formatters for the app and tests.
 - `styles.css`: lightweight presentation.
-- `app.js`: local state, rendering, and copy actions.
+- `app.js`: local state, rendering, copy actions, and JSON import/export.
 - `tests/`: formatter coverage with `node --test`.
 - `DECISIONS.md`: small design notes.

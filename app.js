@@ -1,6 +1,8 @@
 const STORAGE_KEY = "briefboard-local-draft";
 const {
   fields,
+  normalizeDraft,
+  parseJsonImport,
   renderBrief,
   renderPrompt,
   renderJsonExport,
@@ -12,6 +14,9 @@ const briefOutput = document.getElementById("brief-output");
 const promptOutput = document.getElementById("prompt-output");
 const clearButton = document.getElementById("clear-btn");
 const exportJsonButton = document.getElementById("export-json-btn");
+const importJsonButton = document.getElementById("import-json-btn");
+const importJsonInput = document.getElementById("import-json-input");
+const importStatus = document.getElementById("import-status");
 
 function readDraft() {
   const draft = {};
@@ -25,16 +30,19 @@ function saveDraft(draft) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
 }
 
+function writeDraft(draft) {
+  const normalized = normalizeDraft(draft || {});
+  for (const field of fields) {
+    form.elements[field].value = normalized[field];
+  }
+}
+
 function loadDraft() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) return;
   try {
     const draft = JSON.parse(raw);
-    for (const field of fields) {
-      if (typeof draft[field] === "string") {
-        form.elements[field].value = draft[field];
-      }
-    }
+    writeDraft(draft);
   } catch (error) {
     console.warn("Could not parse saved draft", error);
   }
@@ -59,6 +67,11 @@ function flashButton(button, label) {
   setTimeout(() => {
     button.textContent = original;
   }, 1200);
+}
+
+function setImportStatus(message, status = "info") {
+  importStatus.textContent = message;
+  importStatus.dataset.status = status;
 }
 
 function downloadText(fileName, text, type) {
@@ -112,6 +125,29 @@ exportJsonButton.addEventListener("click", () => {
     "application/json",
   );
   flashButton(exportJsonButton, "Exported");
+});
+
+importJsonButton.addEventListener("click", () => {
+  importJsonInput.click();
+});
+
+importJsonInput.addEventListener("change", async () => {
+  const [file] = importJsonInput.files;
+  if (!file) return;
+
+  try {
+    const draft = parseJsonImport(await file.text());
+    writeDraft(draft);
+    update();
+    setImportStatus(`Imported ${file.name}`, "success");
+    flashButton(importJsonButton, "Imported");
+  } catch (error) {
+    console.warn("Import failed", error);
+    setImportStatus(error.message || "Could not import JSON.", "error");
+    flashButton(importJsonButton, "Import failed");
+  } finally {
+    importJsonInput.value = "";
+  }
 });
 
 loadDraft();

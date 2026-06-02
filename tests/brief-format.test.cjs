@@ -5,6 +5,7 @@ const {
   buildFileName,
   fields,
   normalizeDraft,
+  parseJsonImport,
   renderBrief,
   renderJsonExport,
   renderPrompt,
@@ -57,6 +58,46 @@ test("exports stable JSON for handoff and restore", () => {
   assert.equal(json.draft.projectName, "Agent Review");
   assert.equal(json.draft.rollout, "Use on small diffs first.");
   assert.equal(json.draft.stack, "");
+});
+
+test("imports exported JSON drafts", () => {
+  const imported = parseJsonImport(
+    renderJsonExport({
+      projectName: "Agent Review",
+      audience: "Founders",
+      unknown: "ignored",
+    }),
+  );
+
+  assert.equal(imported.projectName, "Agent Review");
+  assert.equal(imported.audience, "Founders");
+  assert.equal(imported.rollout, "");
+  assert.deepEqual(Object.keys(imported), fields);
+});
+
+test("imports raw draft objects for manual handoff files", () => {
+  const imported = parseJsonImport(
+    JSON.stringify({
+      projectName: "Local Audit",
+      problem: "Kickoff notes are scattered.",
+    }),
+  );
+
+  assert.equal(imported.projectName, "Local Audit");
+  assert.equal(imported.problem, "Kickoff notes are scattered.");
+  assert.equal(imported.stack, "");
+});
+
+test("rejects invalid imported JSON", () => {
+  assert.throws(() => parseJsonImport("{"), /valid JSON/);
+  assert.throws(
+    () => parseJsonImport(JSON.stringify({ schema_version: "briefboard-local.v0", draft: {} })),
+    /briefboard-local\.v1/,
+  );
+  assert.throws(
+    () => parseJsonImport(JSON.stringify({ schema_version: "briefboard-local.v1" })),
+    /draft object/,
+  );
 });
 
 test("builds safe filenames from project names", () => {

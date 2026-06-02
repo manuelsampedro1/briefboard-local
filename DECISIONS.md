@@ -29,3 +29,13 @@ Rationale:
 - A real client kickoff needs portable handoff files, not only copied text.
 - JSON export makes a saved draft inspectable and reusable outside the browser.
 - Keeping formatters dependency-free makes the core output testable in Node and usable in the browser.
+
+## Importable Drafts
+
+Support restoring exported JSON drafts directly in the browser.
+
+Rationale:
+
+- Export without import only creates a file; import closes the loop for real kickoff work.
+- The app stays local-first and shareable without accounts, sync, or a database.
+- Validating the JSON schema keeps restore behavior predictable while still allowing raw draft objects for manual handoffs.

@@ -52,9 +52,12 @@
           </label>
 
           <div class="actions">
+            <input type="file" id="import-json-input" accept="application/json,.json" hidden />
+            <button type="button" id="import-json-btn" class="secondary">Import JSON</button>
             <button type="button" id="export-json-btn" class="secondary">Export JSON</button>
             <button type="button" id="clear-btn" class="ghost">Clear</button>
           </div>
+          <p id="import-status" class="status-message" role="status" aria-live="polite"></p>
         </form>
 
         <section class="panel output-panel">

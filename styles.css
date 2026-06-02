@@ -149,6 +149,13 @@ button:hover {
   background: var(--accent-2);
 }
 
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(13, 110, 253, 0.28);
+  outline-offset: 2px;
+}
+
 .secondary {
   background: #eef3f7;
   color: var(--ink);
@@ -170,6 +177,22 @@ button:hover {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px;
+}
+
+.status-message {
+  min-height: 1.2em;
+  margin: -4px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.status-message[data-status="success"] {
+  color: #126b42;
+}
+
+.status-message[data-status="error"] {
+  color: #b42318;
 }
 
 @media (max-width: 920px) {

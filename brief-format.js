@@ -6,6 +6,7 @@
     root.BriefboardFormat = api;
   }
 })(typeof globalThis !== "undefined" ? globalThis : this, function createBriefboardFormat() {
+  const schemaVersion = "briefboard-local.v1";
   const fields = [
     "projectName",
     "audience",
@@ -87,12 +88,37 @@ Please propose the smallest credible implementation, list assumptions, and make 
   function renderJsonExport(draftInput) {
     return JSON.stringify(
       {
-        schema_version: "briefboard-local.v1",
+        schema_version: schemaVersion,
         draft: normalizeDraft(draftInput),
       },
       null,
       2,
     );
+  }
+
+  function parseJsonImport(jsonText) {
+    let payload;
+    try {
+      payload = JSON.parse(jsonText);
+    } catch {
+      throw new Error("Import file must be valid JSON.");
+    }
+
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      throw new Error("Import file must contain a draft object.");
+    }
+
+    if ("schema_version" in payload || "draft" in payload) {
+      if (payload.schema_version !== schemaVersion) {
+        throw new Error(`Import file must use ${schemaVersion}.`);
+      }
+      if (!payload.draft || typeof payload.draft !== "object" || Array.isArray(payload.draft)) {
+        throw new Error("Import file must include a draft object.");
+      }
+      return normalizeDraft(payload.draft);
+    }
+
+    return normalizeDraft(payload);
   }
 
   function slugProjectName(projectName) {
@@ -111,6 +137,7 @@ Please propose the smallest credible implementation, list assumptions, and make 
   return {
     fields,
     normalizeDraft,
+    parseJsonImport,
     renderBrief,
     renderPrompt,
     renderJsonExport,
