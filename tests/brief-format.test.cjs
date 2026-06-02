@@ -3,6 +3,7 @@ const test = require("node:test");
 
 const {
   buildFileName,
+  evaluateReadiness,
   fields,
   normalizeDraft,
   parseJsonImport,
@@ -31,17 +32,42 @@ test("renders a markdown brief with explicit TBD fallbacks", () => {
   });
 
   assert.match(brief, /^# Support Triage/);
+  assert.match(brief, /## Brief Readiness\n- Missing before handoff: Audience, Desired deliverable, Acceptance criteria\./);
   assert.match(brief, /## Problem\nIncoming tickets lack priority\./);
   assert.match(brief, /## Acceptance Criteria\n_TBD_/);
 });
 
-test("renders a Codex prompt that asks for verification", () => {
+test("evaluates whether a draft is ready for Codex handoff", () => {
+  const incomplete = evaluateReadiness({
+    projectName: "Runbook checker",
+    audience: "solo builders",
+  });
+  const ready = evaluateReadiness({
+    projectName: "Runbook checker",
+    audience: "solo builders",
+    problem: "Docs drift from scripts.",
+    deliverable: "Local CLI.",
+    acceptance: "Flags broken script references.",
+  });
+
+  assert.equal(incomplete.ready, false);
+  assert.deepEqual(incomplete.missing, ["Problem", "Desired deliverable", "Acceptance criteria"]);
+  assert.equal(ready.ready, true);
+  assert.equal(ready.message, "Ready for Codex handoff.");
+});
+
+test("renders a Codex prompt that asks for verification and exposes readiness", () => {
   const prompt = renderPrompt({
     projectName: "Runbook checker",
+    audience: "solo builders",
+    problem: "Docs drift from scripts.",
     constraints: "No backend.",
+    deliverable: "Local checker.",
+    acceptance: "Detect broken commands.",
   });
 
   assert.match(prompt, /You are helping me build Runbook checker\./);
+  assert.match(prompt, /Brief readiness:\n- Ready for Codex handoff\./);
   assert.match(prompt, /Constraints:\nNo backend\./);
   assert.match(prompt, /make verification explicit/);
 });

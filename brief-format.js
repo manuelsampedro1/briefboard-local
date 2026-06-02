@@ -17,6 +17,17 @@
     "acceptance",
     "rollout",
   ];
+  const requiredFields = ["projectName", "audience", "problem", "deliverable", "acceptance"];
+  const fieldLabels = {
+    projectName: "Project name",
+    audience: "Audience",
+    problem: "Problem",
+    constraints: "Constraints",
+    deliverable: "Desired deliverable",
+    stack: "Preferred stack",
+    acceptance: "Acceptance criteria",
+    rollout: "Rollout / risk notes",
+  };
 
   function normalizeDraft(draft) {
     const normalized = {};
@@ -30,9 +41,34 @@
     return value || "_TBD_";
   }
 
+  function evaluateReadiness(draftInput) {
+    const draft = normalizeDraft(draftInput);
+    const missing = requiredFields
+      .filter((field) => !draft[field])
+      .map((field) => fieldLabels[field]);
+
+    return {
+      ready: missing.length === 0,
+      missing,
+      message: missing.length === 0
+        ? "Ready for Codex handoff."
+        : `Missing before handoff: ${missing.join(", ")}.`,
+    };
+  }
+
+  function renderReadiness(draftInput) {
+    const readiness = evaluateReadiness(draftInput);
+    return readiness.ready
+      ? "- Ready for Codex handoff."
+      : `- ${readiness.message}`;
+  }
+
   function renderBrief(draftInput) {
     const draft = normalizeDraft(draftInput);
     return `# ${draft.projectName || "Untitled project"}
+
+## Brief Readiness
+${renderReadiness(draft)}
 
 ## Audience
 ${fallback(draft.audience)}
@@ -60,6 +96,9 @@ ${fallback(draft.rollout)}
   function renderPrompt(draftInput) {
     const draft = normalizeDraft(draftInput);
     return `You are helping me build ${draft.projectName || "a project"}.
+
+Brief readiness:
+${renderReadiness(draft)}
 
 Audience:
 ${fallback(draft.audience)}
@@ -136,7 +175,9 @@ Please propose the smallest credible implementation, list assumptions, and make 
 
   return {
     fields,
+    requiredFields,
     normalizeDraft,
+    evaluateReadiness,
     parseJsonImport,
     renderBrief,
     renderPrompt,

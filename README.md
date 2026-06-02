@@ -11,6 +11,7 @@ The problem: good Codex runs start with a tight brief, but most project kickoffs
 - Runs fully in the browser with no backend.
 - Stores the current brief in `localStorage`.
 - Captures problem, audience, constraints, deliverable, stack, acceptance criteria, and rollout notes.
+- Flags missing essential brief fields before the Codex handoff.
 - Generates:
   - a project brief,
   - an implementation handoff,
@@ -60,6 +61,7 @@ Working v1. The app is intentionally simple and offline-first.
 Manual checks:
 
 - Fill every field and confirm the generated brief updates live.
+- Clear an essential field and confirm the brief readiness section lists what is missing.
 - Reload the page and confirm content is restored from `localStorage`.
 - Use the copy buttons for both outputs.
 - Use the download buttons for the Markdown brief, text prompt, and JSON draft.

@@ -39,3 +39,13 @@ Rationale:
 - Export without import only creates a file; import closes the loop for real kickoff work.
 - The app stays local-first and shareable without accounts, sync, or a database.
 - Validating the JSON schema keeps restore behavior predictable while still allowing raw draft objects for manual handoffs.
+
+## Brief Readiness Before Prompting
+
+Show missing essential fields in the generated brief and prompt before a user copies the Codex handoff.
+
+Rationale:
+
+- A prompt can look complete while still missing audience, problem, deliverable, or acceptance criteria.
+- The readiness check stays descriptive rather than scoring quality with a fake number.
+- Keeping it in the shared formatter makes the behavior testable in Node and visible in the browser.
