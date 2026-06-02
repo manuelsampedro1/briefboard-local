@@ -7,6 +7,7 @@ const {
   fields,
   normalizeDraft,
   parseJsonImport,
+  recommendedFields,
   renderBrief,
   renderJsonExport,
   renderPrompt,
@@ -33,6 +34,7 @@ test("renders a markdown brief with explicit TBD fallbacks", () => {
 
   assert.match(brief, /^# Support Triage/);
   assert.match(brief, /## Brief Readiness\n- Missing before handoff: Audience, Desired deliverable, Acceptance criteria\./);
+  assert.match(brief, /- Warnings before handoff:\n  - Constraints: empty; say "none" if this is intentional\./);
   assert.match(brief, /## Problem\nIncoming tickets lack priority\./);
   assert.match(brief, /## Acceptance Criteria\n_TBD_/);
 });
@@ -52,8 +54,18 @@ test("evaluates whether a draft is ready for Codex handoff", () => {
 
   assert.equal(incomplete.ready, false);
   assert.deepEqual(incomplete.missing, ["Problem", "Desired deliverable", "Acceptance criteria"]);
+  assert.deepEqual(incomplete.warnings, [
+    'Constraints: empty; say "none" if this is intentional.',
+    'Preferred stack: empty; say "none" if this is intentional.',
+    'Rollout / risk notes: empty; say "none" if this is intentional.',
+  ]);
   assert.equal(ready.ready, true);
   assert.equal(ready.message, "Ready for Codex handoff.");
+  assert.deepEqual(ready.warnings, [
+    'Constraints: empty; say "none" if this is intentional.',
+    'Preferred stack: empty; say "none" if this is intentional.',
+    'Rollout / risk notes: empty; say "none" if this is intentional.',
+  ]);
 });
 
 test("renders a Codex prompt that asks for verification and exposes readiness", () => {
@@ -63,13 +75,20 @@ test("renders a Codex prompt that asks for verification and exposes readiness", 
     problem: "Docs drift from scripts.",
     constraints: "No backend.",
     deliverable: "Local checker.",
+    stack: "Python standard library.",
     acceptance: "Detect broken commands.",
+    rollout: "Run on local docs before CI.",
   });
 
   assert.match(prompt, /You are helping me build Runbook checker\./);
   assert.match(prompt, /Brief readiness:\n- Ready for Codex handoff\./);
+  assert.doesNotMatch(prompt, /Warnings before handoff/);
   assert.match(prompt, /Constraints:\nNo backend\./);
   assert.match(prompt, /make verification explicit/);
+});
+
+test("exports recommended readiness fields for UI and docs", () => {
+  assert.deepEqual(recommendedFields, ["constraints", "stack", "rollout"]);
 });
 
 test("exports stable JSON for handoff and restore", () => {

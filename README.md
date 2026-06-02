@@ -12,6 +12,7 @@ The problem: good Codex runs start with a tight brief, but most project kickoffs
 - Stores the current brief in `localStorage`.
 - Captures problem, audience, constraints, deliverable, stack, acceptance criteria, and rollout notes.
 - Flags missing essential brief fields before the Codex handoff.
+- Warns when optional but important scope fields are empty, including constraints, stack, and rollout/risk notes.
 - Generates:
   - a project brief,
   - an implementation handoff,
@@ -83,6 +84,7 @@ Manual checks:
 
 - Fill every field and confirm the generated brief updates live.
 - Clear an essential field and confirm the brief readiness section lists what is missing.
+- Leave constraints, stack, or rollout empty and confirm the readiness section shows non-blocking handoff warnings.
 - Reload the page and confirm content is restored from `localStorage`.
 - Use the copy buttons for both outputs.
 - Use the download buttons for the Markdown brief, text prompt, and JSON draft.

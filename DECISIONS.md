@@ -59,3 +59,13 @@ Rationale:
 - A local-first product demo still needs a reviewer to reproduce checks quickly.
 - `npm test`, `npm run build`, and `npm run lint` make the verification path explicit.
 - A sample draft proves the JSON import/export shape without adding backend state or demo accounts.
+
+## Non-Blocking Handoff Warnings
+
+Show warnings when constraints, stack, or rollout/risk notes are empty, without blocking a Codex handoff.
+
+Rationale:
+
+- A brief can include all required fields and still hide important execution risk.
+- Missing constraints, stack, or rollout notes often cause oversized implementations or weak closeouts.
+- Warnings preserve the lightweight form and JSON schema while nudging users toward a sharper handoff.

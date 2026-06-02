@@ -18,6 +18,7 @@
     "rollout",
   ];
   const requiredFields = ["projectName", "audience", "problem", "deliverable", "acceptance"];
+  const recommendedFields = ["constraints", "stack", "rollout"];
   const fieldLabels = {
     projectName: "Project name",
     audience: "Audience",
@@ -46,10 +47,14 @@
     const missing = requiredFields
       .filter((field) => !draft[field])
       .map((field) => fieldLabels[field]);
+    const warnings = recommendedFields
+      .filter((field) => !draft[field])
+      .map((field) => `${fieldLabels[field]}: empty; say "none" if this is intentional.`);
 
     return {
       ready: missing.length === 0,
       missing,
+      warnings,
       message: missing.length === 0
         ? "Ready for Codex handoff."
         : `Missing before handoff: ${missing.join(", ")}.`,
@@ -58,9 +63,15 @@
 
   function renderReadiness(draftInput) {
     const readiness = evaluateReadiness(draftInput);
-    return readiness.ready
+    const statusLine = readiness.ready
       ? "- Ready for Codex handoff."
       : `- ${readiness.message}`;
+    if (readiness.warnings.length === 0) {
+      return statusLine;
+    }
+    return `${statusLine}
+- Warnings before handoff:
+${readiness.warnings.map((warning) => `  - ${warning}`).join("\n")}`;
   }
 
   function renderBrief(draftInput) {
@@ -176,6 +187,7 @@ Please propose the smallest credible implementation, list assumptions, and make 
   return {
     fields,
     requiredFields,
+    recommendedFields,
     normalizeDraft,
     evaluateReadiness,
     parseJsonImport,
